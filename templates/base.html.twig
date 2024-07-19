@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        {% block stylesheets %}
+        {% endblock %}
+
+        {% block javascripts %}
+            {% block importmap %}{{ importmap('app') }}{% endblock %}
+        {% endblock %}
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.10/dist/full.min.css" rel="stylesheet" type="text/css" />
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" integrity="sha384-4LISF5TTJX/fLmGSxO53rV4miRxdg84mZsxmO8Rx5jGtp/LbrixFETvWa5a6sESd" crossorigin="anonymous">
+    </head>
+    <body>
+
+        <header>
+            <div class="navbar bg-base-100">
+                <div class="flex-1">
+                    <a class="btn btn-ghost text-xl">3WA Miam</a>
+                </div>
+                <nav class="flex-none">
+                    <ul class="menu menu-horizontal px-1">
+                        <li>
+                            <a href="/"
+                            {% if app.request.get('_route') == 'app_home' %} class="text-primary"{% endif %}
+                            >Home page</a>
+                        </li>
+                        <li>
+                            <a href="/about"
+                            {% if app.request.get('_route') == 'app_about' %} class="text-primary"{% endif %}
+                            >About</a>
+                        </li>
+
+                        
+
+
+                        {% if app.user %}
+
+                            {% if 'ROLE_ADMIN' in app.user.roles %}
+
+                                <li>
+                                    <a href="/dashboard" 
+                                    {% if app.request.get('_route') == 'app_dashboard' %} class="text-primary"{% endif %}
+                                    >Admin</a>
+                                </li>
+
+                            {% endif %}
+                            
+                            <li>
+                                <a href="/profile"
+                                {% if app.request.get('_route') == 'app_profile' %} class="text-primary"{% endif %}
+                                >Profile</a>
+                            </li>
+                            
+                            <li>
+                                <a href="/logout">Logout</a>
+                            </li>
+
+                           
+
+                        {% else %}
+
+                            <li>
+                                <a href="/register"
+                                {% if app.request.get('_route') == 'app_register' %} class="text-primary"{% endif %}
+                                >Register</a>
+                            </li>
+                            
+                            <li>
+                                <a href="/login"
+                                {% if app.request.get('_route') == 'app_login' %} class="text-primary"{% endif %}
+                                >Login</a>
+                            </li>
+
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        {% block body %}{% endblock %}
+    
+    </body>
+</html>
